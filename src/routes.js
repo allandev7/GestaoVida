@@ -5,7 +5,6 @@ import React from 'react'
 import Config from './configuracoes'
 import Metas from './metas'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import NavigatorService from './services/navigator'
 
 const Routes = createAppContainer(
     createStackNavigator({

@@ -15,7 +15,15 @@ export default function Index({navigation}) {
           </Text>
           <View style={styles.subContainer}>
           <Text style={styles.subTxt}>
-              Total Poupado:
+              Quantia para Longo
+            </Text>
+            <Text style={styles.subTxt}>
+              R$4.700
+            </Text>
+          </View>
+          <View style={styles.subContainer}>
+          <Text style={styles.subTxt}>
+              Quantia para Medio
             </Text>
             <Text style={styles.subTxt}>
               R$4.700

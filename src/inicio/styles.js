@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     mainContainer:{
-        height:"40%",
+        height:"43%",
         borderRadius:25,
         elevation:10,
         backgroundColor:'#FFFAFA',
-        margin:"10%",
+        margin:"5%",
         width:"90%"
     },
     txtMain:{
