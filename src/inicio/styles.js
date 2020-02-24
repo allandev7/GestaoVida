@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         elevation:10,
         backgroundColor:'#FFFAFA',
         margin:"5%",
-        width:"90%"
+        width:"90%",
     },
     txtMain:{
         alignSelf:"center",
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     subTxt:{
         fontFamily: 'Roboto',
-        fontSize:20
+        fontSize:20,
     }
 })
 
