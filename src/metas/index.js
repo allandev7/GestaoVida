@@ -44,24 +44,19 @@ export default function Index() {
   function buscarDados() {
     getData('vetorMes').then(x => {
       setMes(JSON.parse(x));
-      console.log(x);
     })
     getData('vetorProjetos').then(x => {
       setProjetos(JSON.parse(x));
-      console.log(x);
     })
     getData('vetorLivros').then(x => {
       setLivros(JSON.parse(x));
-      console.log(x);
     })
     getData('vetorMetas').then(x => {
       setMetaAno(JSON.parse(x));
-      console.log(x);
     })
   }
 
   function adicionarMeta(txt) {
-    console.log(modal.cat)
     if (txt == 'Mes') {
       if (meta == '') {
         Alert.alert('Alerta', 'A meta precisa ter pelo menos 2 caracteres')
@@ -115,7 +110,6 @@ export default function Index() {
         }
       }
     }
-    console.log(mes)
   }
 
   function checked(index, obj, txt) {

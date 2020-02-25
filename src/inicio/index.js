@@ -1,45 +1,121 @@
 import React, { useEffect, useState } from 'react';
-import { View, StatusBar, StyleSheet, Text, RefreshControl } from 'react-native';
+import { View, StatusBar, StyleSheet, Text, RefreshControl, TextInput, Button, Alert } from 'react-native';
 import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getData, setData } from '../service/LocalBackend'
 import { ScrollView } from 'react-native-gesture-handler';
+import Modal from 'react-native-modalbox'
+
 
 // import { Container } from './styles';
 
 export default function Index({ navigation }) {
-  useEffect(() => {
-    buscarDados();
-  }, []);
 
-  function buscarDados(){
-    getData('salario').then(x =>
-      setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
-    );
-    getData('pGrande').then(x =>
-      setPgrande(x.replace('%', '').split(',')[0]*salario/100)
-    );
-    getData('pMedio').then(x =>
-      setPmedio(x.replace('%', '').split(',')[0]*salario/100)
-    );
-    getData('sobra').then(x =>
-      setSobra(x)
-    );
-  }
-
+  const [modal, setModal] = useState({ exibir: false, cat: '' });
+  const [despesa, setDespesa] = useState('');
+  const [despesas, setDespesas] = useState({});
   const [salario, setSalario] = useState('');
   const [pGrande, setPgrande] = useState('');
   const [pMedio, setPmedio] = useState('');
   const [sobra, setSobra] = useState('');
+  const [extra, setExtra] = useState(0);
+
+  useEffect(() => {
+    buscarDados();
+  }, []);
+
+  useEffect(() => {
+    setData('despesas', JSON.stringify(despesas));
+    console.log(despesas);
+  }, [despesas]);
+
+  useEffect(() => {
+    setData('extra', extra.toString());
+    console.log(extra);
+  }, [extra]);
+
+  function buscarDados() {
+    getData('salario').then(x =>
+      setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
+    );
+    getData('pGrande').then(x =>
+      setPgrande(x.replace('%', '').split(',')[0] * salario / 100)
+    );
+    getData('pMedio').then(x =>
+      setPmedio(x.replace('%', '').split(',')[0] * salario / 100)
+    );
+    getData('sobra').then(x =>
+      setSobra(x)
+    );
+    getData('despesas').then((x) => {
+      x == undefined ?
+        setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
+        setDespesas(JSON.parse(x));
+      console.log(x);
+      console.log(despesas);
+    });
+    getData('extra').then((x) => {
+      x == undefined ?
+        setExtra(0) :
+        setExtra(x);
+      console.log(x);
+      console.log(extra);
+    });
+
+  }
+
+  function calcularTotal() {
+    return parseFloat(salario) + parseFloat(extra) - pGrande - pMedio - despesas.alimento - despesas.lazer - despesas.presente - despesas.transporte - despesas.metas;
+  }
+
+  function adicionarDespesa(categoria) {
+    const { alimento, lazer, transporte, presente, metas } = despesas;
+    if (despesa == '') {
+      Alert.alert('Alerta', 'Digite a despesa corretamente')
+    } else if (despesa.length >= 1) {
+      if (categoria == 'Alimento') {
+        setDespesas({ alimento: (parseFloat(alimento) + parseFloat(despesa)), lazer, transporte, metas, presente });
+        Alert.alert('Sucesso', 'Despesa guardada com sucesso');
+      } else if (categoria == 'Lazer') {
+        setDespesas({ alimento, lazer: (parseFloat(lazer) + parseFloat(despesa)), transporte, metas, presente });
+        Alert.alert('Sucesso', 'Despesa guardada com sucesso');
+      } else if (categoria == 'Metas') {
+        setDespesas({ alimento, lazer, transporte, metas: (parseFloat(metas) + parseFloat(despesa)), presente });
+        Alert.alert('Sucesso', 'Despesa guardada com sucesso');
+      } else if (categoria == 'Presente') {
+        setDespesas({ alimento, lazer, transporte, metas, presente: (parseFloat(presente) + parseFloat(despesa)) });
+        Alert.alert('Sucesso', 'Despesa guardada com sucesso');
+      } else if (categoria == 'Transporte') {
+        setDespesas({ alimento, lazer, transporte: (parseFloat(transporte) + parseFloat(despesa)), metas, presente });
+        Alert.alert('Sucesso', 'Despesa guardada com sucesso');
+      } else if (categoria == 'Extra') {
+        setExtra(parseFloat(extra) + parseFloat(despesa));
+        Alert.alert('Sucesso', 'Dinheirto extra guardado com sucesso');
+      }
+    }
+  }
+
   return (
-    <ScrollView refreshControl={
+    <ScrollView keyboardDismissMode='none' refreshControl={
       <RefreshControl refreshing={false} onRefresh={() => buscarDados()} />
-    } contentContainerStyle={{height:'100%'}}>
+    } contentContainerStyle={{ height: '100%' }}>
+
+      <Modal
+        style={styles.modal}
+        isOpen={modal.exibir}
+        swipeToClose={true}
+        onClosed={() => setModal({ exibir: false, cat: "" }, setDespesa(''))}>
+        <Text style={styles.titleModal}> Adiconar {modal.cat == 'Extra' ? 'Extra' : 'Despesa'}</Text>
+        <TextInput onChangeText={(txt) => setDespesa(txt)} value={despesa} style={styles.inputModal}
+          keyboardType="number-pad" placeholder={modal.cat == 'Extra' ? 'Valor extra' : 'Valor da despesa'} />
+        <Button onPress={() => adicionarDespesa(modal.cat)} color="#7B68EE" title="Adicionar" />
+      </Modal>
+
       <StatusBar backgroundColor='#6959CD' />
       <View style={styles.allContainer}>
         <View style={styles.mainContainer}>
           <Text style={styles.txtMain}>
-            R${(salario-pMedio-pGrande).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            R${calcularTotal().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
           </Text>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
@@ -54,21 +130,21 @@ export default function Index({ navigation }) {
               Quantia para Medio
             </Text>
             <Text style={styles.subTxt}>
-            R${pMedio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              R${pMedio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </Text>
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Adicionar Saldo Extra
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Extra" })} size={25} color='#7B68EE' />
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Quantia de Extras:
             </Text>
             <Text style={styles.subTxt}>
-              R$100
+              R${extra}
             </Text>
           </View>
           <View style={styles.subContainer}>
@@ -76,7 +152,7 @@ export default function Index({ navigation }) {
               Metas:
             </Text>
             <Text style={styles.subTxt}>
-              R$700
+              R${despesas.metas}
             </Text>
           </View>
           <View style={styles.subContainer}>
@@ -88,9 +164,6 @@ export default function Index({ navigation }) {
             </Text>
           </View>
         </View>
-
-
-
         <View style={styles.mainContainer}>
           <Text style={styles.txtMain}>
             Compras do mês
@@ -99,37 +172,34 @@ export default function Index({ navigation }) {
             <Text style={styles.subTxt}>
               Alimento
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Alimento" })} size={25} color='#7B68EE' />
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Lazer
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Lazer" })} size={25} color='#7B68EE' />
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Metas
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Metas" })} size={25} color='#7B68EE' />
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Presente
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Presente" })} size={25} color='#7B68EE' />
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Transporte
             </Text>
-            <Icon name="plus-circle" size={25} color='#7B68EE' />
+            <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Transporte" })} size={25} color='#7B68EE' />
           </View>
 
         </View>
-
-
-
       </View>
     </ScrollView>
   );
