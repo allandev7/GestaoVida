@@ -1,45 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { View, StatusBar, StyleSheet, Text } from 'react-native';
+import { View, StatusBar, StyleSheet, Text, RefreshControl } from 'react-native';
 import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getData, setData } from '../service/LocalBackend'
+import { ScrollView } from 'react-native-gesture-handler';
 
 // import { Container } from './styles';
 
 export default function Index({ navigation }) {
   useEffect(() => {
+    buscarDados();
+  }, []);
+
+  function buscarDados(){
     getData('salario').then(x =>
       setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
     getData('pGrande').then(x =>
-      setPgrande(x.replace('%', '').split(',')[0])
+      setPgrande(x.replace('%', '').split(',')[0]*salario/100)
     );
     getData('pMedio').then(x =>
-      setPmedio(x.replace('%', '').split(',')[0])
+      setPmedio(x.replace('%', '').split(',')[0]*salario/100)
     );
     getData('sobra').then(x =>
       setSobra(x)
     );
-  }, []);
+  }
 
   const [salario, setSalario] = useState('');
   const [pGrande, setPgrande] = useState('');
   const [pMedio, setPmedio] = useState('');
   const [sobra, setSobra] = useState('');
   return (
-    <>
+    <ScrollView refreshControl={
+      <RefreshControl refreshing={false} onRefresh={() => buscarDados()} />
+    } contentContainerStyle={{height:'100%'}}>
       <StatusBar backgroundColor='#6959CD' />
       <View style={styles.allContainer}>
         <View style={styles.mainContainer}>
           <Text style={styles.txtMain}>
-            R${salario.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            R${(salario-pMedio-pGrande).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
           </Text>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
               Quantia para Longo
             </Text>
             <Text style={styles.subTxt}>
-              R${(salario* pGrande / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              R${pGrande.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </Text>
           </View>
           <View style={styles.subContainer}>
@@ -47,7 +54,7 @@ export default function Index({ navigation }) {
               Quantia para Medio
             </Text>
             <Text style={styles.subTxt}>
-            R${(salario* pMedio / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            R${pMedio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </Text>
           </View>
           <View style={styles.subContainer}>
@@ -124,6 +131,6 @@ export default function Index({ navigation }) {
 
 
       </View>
-    </>
+    </ScrollView>
   );
 }

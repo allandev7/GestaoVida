@@ -8,8 +8,12 @@ import { getData, setData } from '../service/LocalBackend'
 
 
 
-export default function Config() {
+export default function Config({ navigation }) {
   useEffect(() => {
+    buscarDados();
+  }, []);
+
+  function buscarDados() {
     getData('salario').then(x =>
       setSalario(x)
     );
@@ -22,7 +26,7 @@ export default function Config() {
     getData('sobra').then(x =>
       setSobra(x)
     );
-  }, []);
+  }
 
   const [salario, setSalario] = useState('');
   const [pGrande, setPgrande] = useState('');
@@ -31,11 +35,16 @@ export default function Config() {
 
 
   function alterar() {
-    setData('salario', salario);
-    setData('pGrande', pGrande);
-    setData('pMedio', pMedio);
-    setData('sobra', sobra);
-    Alert.alert('Sucesso','Dados alterados com sucesso');
+    if (salario == undefined || pGrande == undefined || pMedio == undefined || sobra == undefined) {
+      Alert.alert('Erro','Preencha os campos corretamentes, se vazio use 0');
+    } else {
+      setData('salario', salario);
+      setData('pGrande', pGrande);
+      setData('pMedio', pMedio);
+      setData('sobra', sobra);
+      Alert.alert('Sucesso', 'Dados alterados com sucesso');
+    }
+
   }
 
 
@@ -60,7 +69,7 @@ export default function Config() {
         <View style={{ flexDirection: "row", alignSelf: "center", justifyContent: "center" }}>
           <TextInputMask type={'money'} options={{
             unit: '%',
-          }}  keyboardType="number-pad" style={styles.txtMain} value={pGrande} onChangeText={text => setPgrande(text)} placeholder='Porcentagem Grande Aquisição' selectionColor='blue' />
+          }} keyboardType="number-pad" style={styles.txtMain} value={pGrande} onChangeText={text => setPgrande(text)} placeholder='Porcentagem Grande Aquisição' selectionColor='blue' />
         </View>
         <View style={{ flexDirection: "row", alignSelf: "center", justifyContent: "center" }}>
           <TextInputMask type={'money'} options={{
