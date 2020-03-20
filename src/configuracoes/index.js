@@ -17,11 +17,11 @@ export default function Config({ navigation }) {
     getData('salario').then(x =>
       setSalario(x)
     );
-    getData('pGrande').then(x =>
-      setPgrande(x)
+    getData('investimentos').then(x =>
+      setInvestimentos(x)
     );
-    getData('pMedio').then(x =>
-      setPmedio(x)
+    getData('fixos').then(x =>
+      setFixos(x)
     );
     getData('sobra').then(x =>
       setSobra(x)
@@ -29,18 +29,18 @@ export default function Config({ navigation }) {
   }
 
   const [salario, setSalario] = useState('');
-  const [pGrande, setPgrande] = useState('');
-  const [pMedio, setPmedio] = useState('');
+  const [investimentos, setInvestimentos] = useState('');
+  const [fixos, setFixos] = useState('');
   const [sobra, setSobra] = useState('');
 
 
   function alterar() {
-    if (salario == undefined || pGrande == undefined || pMedio == undefined || sobra == undefined) {
+    if (salario == undefined || investimentos == undefined || fixos == undefined || sobra == undefined) {
       Alert.alert('Erro','Preencha os campos corretamentes, se vazio use 0');
     } else {
       setData('salario', salario);
-      setData('pGrande', pGrande);
-      setData('pMedio', pMedio);
+      setData('investimentos', investimentos);
+      setData('fixos', fixos);
       setData('sobra', sobra);
       Alert.alert('Sucesso', 'Dados alterados com sucesso');
     }
@@ -68,20 +68,30 @@ export default function Config({ navigation }) {
         </View>
         <View style={{ flexDirection: "row", alignSelf: "center", justifyContent: "center" }}>
           <TextInputMask type={'money'} options={{
-            unit: '%',
-          }} keyboardType="number-pad" style={styles.txtMain} value={pGrande} onChangeText={text => setPgrande(text)} placeholder='Porcentagem Grande Aquisição' selectionColor='blue' />
+            precision: 2,
+            separator: ',',
+            delimiter: '.',
+            unit: 'R$',
+            suffixUnit: ''
+          }}  keyboardType="number-pad" style={styles.txtMain} value={investimentos} onChangeText={text => setInvestimentos(text)} placeholder='Para investimentos' selectionColor='blue' />
         </View>
         <View style={{ flexDirection: "row", alignSelf: "center", justifyContent: "center" }}>
           <TextInputMask type={'money'} options={{
             precision: 2,
             separator: ',',
             delimiter: '.',
-            unit: '%',
+            unit: 'R$',
             suffixUnit: ''
-          }} keyboardType="number-pad" style={styles.txtMain} value={pMedio} onChangeText={text => setPmedio(text)} placeholder='Porcentagem Média Aquisição' selectionColor='blue' />
+          }}  keyboardType="number-pad" style={styles.txtMain} value={fixos} onChangeText={text => setFixos(text)} placeholder='Gastos Fixos' selectionColor='blue' />
         </View>
         <View style={{ flexDirection: "row", alignSelf: "center", justifyContent: "center" }}>
-          <TextInput keyboardType="number-pad" style={styles.txtMain} value={sobra} onChangeText={text => setSobra(text)} placeholder='Sobra mês' selectionColor='blue' />
+          <TextInputMask type={'money'} options={{
+            precision: 2,
+            separator: ',',
+            delimiter: '.',
+            unit: 'R$',
+            suffixUnit: ''
+          }}  keyboardType="number-pad" style={styles.txtMain} value={sobra} onChangeText={text => setSobra(text)} placeholder='Deixar em caixa' selectionColor='blue' />
         </View>
         <TouchableOpacity onPress={() => alterar()} style={styles.btn}>
           <Text style={styles.txtBtn}>

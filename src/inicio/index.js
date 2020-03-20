@@ -4,7 +4,8 @@ import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getData, setData } from '../service/LocalBackend'
 import { ScrollView } from 'react-native-gesture-handler';
-import Modal from 'react-native-modalbox'
+import Modal from 'react-native-modalbox';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 // import { Container } from './styles';
@@ -15,57 +16,53 @@ export default function Index({ navigation }) {
   const [despesa, setDespesa] = useState('');
   const [despesas, setDespesas] = useState({});
   const [salario, setSalario] = useState('');
-  const [pGrande, setPgrande] = useState('');
-  const [pMedio, setPmedio] = useState('');
+  const [investimentos, setInvestimentos] = useState('');
+  const [fixos, setFixos] = useState('');
   const [sobra, setSobra] = useState('');
   const [extra, setExtra] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     buscarDados();
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     setData('despesas', JSON.stringify(despesas));
-    console.log(despesas);
   }, [despesas]);
 
   useEffect(() => {
     setData('extra', extra.toString());
-    console.log(extra);
   }, [extra]);
 
   function buscarDados() {
     getData('salario').then(x =>
       setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
-    getData('pGrande').then(x =>
-      setPgrande(x.replace('%', '').split(',')[0] * salario / 100)
+    getData('investimentos').then(x =>
+      setInvestimentos(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
-    getData('pMedio').then(x =>
-      setPmedio(x.replace('%', '').split(',')[0] * salario / 100)
+    getData('fixos').then(x =>
+      setFixos(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
     getData('sobra').then(x =>
-      setSobra(x)
+      setSobra(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
     getData('despesas').then((x) => {
       x == undefined ?
         setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
         setDespesas(JSON.parse(x));
-      console.log(x);
-      console.log(despesas);
     });
     getData('extra').then((x) => {
       x == undefined ?
         setExtra(0) :
         setExtra(x);
-      console.log(x);
-      console.log(extra);
+      setLoading(false);
     });
 
   }
 
   function calcularTotal() {
-    return parseFloat(salario) + parseFloat(extra) - pGrande - pMedio - despesas.alimento - despesas.lazer - despesas.presente - despesas.transporte - despesas.metas;
+    return parseFloat(salario) + parseFloat(extra) - investimentos - fixos - despesas.alimento - despesas.lazer - despesas.presente - despesas.transporte - despesas.metas;
   }
 
   function adicionarDespesa(categoria) {
@@ -100,6 +97,12 @@ export default function Index({ navigation }) {
       <RefreshControl refreshing={false} onRefresh={() => buscarDados()} />
     } contentContainerStyle={{ height: '100%' }}>
 
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={{color:'#fff'}}
+      />
+
       <Modal
         style={styles.modal}
         isOpen={modal.exibir}
@@ -119,18 +122,18 @@ export default function Index({ navigation }) {
           </Text>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
-              Quantia para Longo
+              Investimentos
             </Text>
             <Text style={styles.subTxt}>
-              R${pGrande.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              R${investimentos.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </Text>
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
-              Quantia para Medio
+              Gastos Fixos
             </Text>
             <Text style={styles.subTxt}>
-              R${pMedio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              R${fixos.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </Text>
           </View>
           <View style={styles.subContainer}>
