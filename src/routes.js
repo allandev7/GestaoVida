@@ -3,6 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Index from './inicio'
 import React from 'react'
 import Config from './configuracoes'
+import Relatorio from './relatorio'
 import Metas from './metas'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -28,6 +29,12 @@ const Routes = createAppContainer(
                 title:"Metas",
             }
         },
+        Relatorio:{
+            screen:Relatorio,
+            navigationOptions:{
+                title:"Relatório"
+            }
+        }
     },{
         defaultNavigationOptions:{
             headerTitleAlign:"center",

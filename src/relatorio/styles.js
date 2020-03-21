@@ -13,18 +13,24 @@ const styles = StyleSheet.create({
         elevation:10,
         backgroundColor:'#FFFAFA',
         margin:"3%",
-        width:"95%"
+        width:"95%",
+        alignItems:"center"
     },
-    txtMain:{
-        margin:'10%',
-        fontSize:20,
-        color:"#7B68EE",
-        alignSelf:"center",
-        alignItems:"center",
-        textAlign:"center"
+    containerGrafico:{
+        top:20
+    },
+    circle:{
+        height:20,
+        width:20,
+        borderRadius:50,
+        marginRight: 10
+    },
+    legenda:{
+        height:"45%",
+        paddingTop:50,
+        justifyContent:"space-between"
     },
     btn:{
-        top:'5%',
         width:'90%',
         height:'7%',
         alignItems:"center",

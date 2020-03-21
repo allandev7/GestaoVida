@@ -98,6 +98,11 @@ export default function Config({ navigation }) {
             Alterar
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Relatorio")} style={[styles.btn, {backgroundColor:"#333"}]}>
+          <Text style={styles.txtBtn}>
+            Relatório Mês
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
