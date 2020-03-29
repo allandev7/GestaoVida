@@ -159,6 +159,7 @@ export default function Index() {
 
           {mes !== undefined ? mes.map((x, index) => (
             <CheckBox
+              textStyle={{fontFamily: 'Roboto'}}
               key={index}
               title={x.nome}
               checked={x.check}

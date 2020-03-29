@@ -9,8 +9,13 @@ import { getData, setData } from '../service/LocalBackend'
 
 
 export default function Config({ navigation }) {
+
+  
+
   useEffect(() => {
-    buscarDados();
+    navigation.addListener('didFocus', () => {
+      buscarDados();
+    });
   }, []);
 
   function buscarDados() {
@@ -93,7 +98,11 @@ export default function Config({ navigation }) {
             suffixUnit: ''
           }}  keyboardType="number-pad" style={styles.txtMain} value={sobra} onChangeText={text => setSobra(text)} placeholder='Deixar em caixa' selectionColor='blue' />
         </View>
-        <TouchableOpacity onPress={() => alterar()} style={styles.btn}>
+      </View>
+      <View>
+        
+      </View>
+      <TouchableOpacity onPress={() => alterar()} style={styles.btn}>
           <Text style={styles.txtBtn}>
             Alterar
           </Text>
@@ -103,7 +112,6 @@ export default function Config({ navigation }) {
             Relatório Mês
           </Text>
         </TouchableOpacity>
-      </View>
     </View>
   );
 }

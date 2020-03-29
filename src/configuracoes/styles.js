@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
     allContainer:{
         backgroundColor:"#FFF",
         height:"100%",
-        alignItems:"center"
+        alignItems:"center",
+        justifyContent: "space-between"
     },
     mainContainer:{
-        height:"95%",
         top:'5%',
         borderRadius:25,
         elevation:10,
@@ -16,19 +17,18 @@ const styles = StyleSheet.create({
         width:"95%"
     },
     txtMain:{
-        margin:'10%',
-        fontSize:20,
+        margin:'7%',
+        fontSize:hp('2.5%'),
         color:"#7B68EE",
         alignSelf:"center",
         alignItems:"center",
         textAlign:"center"
     },
     btn:{
-        top:'5%',
         width:'90%',
         height:'7%',
         alignItems:"center",
-        alignSelf:"center",
+        alignSelf:"flex-end",
         backgroundColor:"#7B68EE",
         borderRadius:25,
         justifyContent:"center",

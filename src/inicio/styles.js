@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const styles = StyleSheet.create({
     allContainer:{
         backgroundColor:"#FFF",
@@ -36,16 +36,19 @@ const styles = StyleSheet.create({
         color: "#7B68EE",
     },
     mainContainer:{
-        height:"43%",
+        minHeight:"45%",
+        maxHeight:"60%",
         borderRadius:25,
         elevation:10,
         backgroundColor:'#FFFAFA',
-        margin:"5%",
+        margin:"3%",
         width:"90%",
+        alignItems:"center",
+        justifyContent:"space-evenly"
     },
     txtMain:{
         alignSelf:"center",
-        fontSize:30,
+        fontSize:hp("3%"),
         color:"#7B68EE",
     },
     subContainer:{
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     },
     subTxt:{
         fontFamily: 'Roboto',
-        fontSize:20,
+        fontSize:hp("2.5%"),
     }
 })
 

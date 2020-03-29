@@ -23,7 +23,7 @@ export default function Index({ navigation }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    buscarDados();
+      buscarDados();
   }, [loading]);
 
   useEffect(() => {

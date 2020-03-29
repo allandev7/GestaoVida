@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     containerGrafico:{
-        top:20
+        top:20,
+        backgroundColor: '#FFFAFA'
     },
     circle:{
         height:20,

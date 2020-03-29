@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
 
 const styles = StyleSheet.create({
     all: {
@@ -56,7 +58,8 @@ const styles = StyleSheet.create({
         paddingBottom:20
     },
     txtMain: {
-        fontSize: 30,
+        fontSize: hp("3.5%"),
+        fontFamily: 'Roboto',
         height: 50,
         color: "#7B68EE",
         alignSelf: "center",
