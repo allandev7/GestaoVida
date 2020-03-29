@@ -35,8 +35,13 @@ export default function Index({ navigation }) {
   }, [extra]);
 
   function buscarDados() {
-    getData('salario').then(x =>
+    getData('salario').then(x =>{
+      if(x==undefined){
+        Alert.alert('Faça as configurações iniciais', 'Informe os seus dados na aba de configuração e depois atualize os dados na tela inicial',
+        [{text:"Ir Agora", onPress:()=> navigation.navigate('Config')}]);
+      }
       setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
+    }
     );
     getData('investimentos').then(x =>
       setInvestimentos(x.replace('R$', '').split(',')[0].replace('.', ''))
