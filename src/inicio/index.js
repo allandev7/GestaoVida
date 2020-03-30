@@ -14,7 +14,7 @@ export default function Index({ navigation }) {
 
   const [modal, setModal] = useState({ exibir: false, cat: '' });
   const [despesa, setDespesa] = useState('');
-  const [despesas, setDespesas] = useState({});
+  const [despesas, setDespesas] = useState({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 });
   const [salario, setSalario] = useState('');
   const [investimentos, setInvestimentos] = useState('');
   const [fixos, setFixos] = useState('');
@@ -23,16 +23,21 @@ export default function Index({ navigation }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    navigation.addListener('didFocus', () => {
       buscarDados();
+    });  
   }, [loading]);
 
   useEffect(() => {
+    console.log(despesas);
     setData('despesas', JSON.stringify(despesas));
   }, [despesas]);
 
   useEffect(() => {
     setData('extra', extra.toString());
   }, [extra]);
+
+  
 
   function buscarDados() {
     getData('salario').then(x =>{
@@ -53,8 +58,6 @@ export default function Index({ navigation }) {
       setSobra(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
     getData('despesas').then((x) => {
-      x == undefined ?
-        setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
         setDespesas(JSON.parse(x));
     });
     getData('extra').then((x) => {
@@ -94,6 +97,7 @@ export default function Index({ navigation }) {
         setExtra(parseFloat(extra) + parseFloat(despesa));
         Alert.alert('Sucesso', 'Dinheirto extra guardado com sucesso');
       }
+      setData('despesas', JSON.stringify(despesas));
     }
   }
 

@@ -48,6 +48,7 @@ export default function Config({ navigation }) {
       setData('fixos', fixos);
       setData('sobra', sobra);
       Alert.alert('Sucesso', 'Dados alterados com sucesso');
+      navigation.navigate('Index');
     }
 
   }
