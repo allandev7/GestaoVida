@@ -46,11 +46,12 @@ export default function Config({ navigation }) {
     const nmrSalario = parseFloat(salario.replace('R$', '').replace('.','').replace(',', '.'));
     const nmrInvestimentos = parseFloat(investimentos.replace('R$', '').replace('.','').replace(',', '.'));
     const nmrFixos = parseFloat(fixos.replace('R$', '').replace('.', '').replace(',', '.'));
+    const nmrSobra = parseFloat(sobra.replace('R$', '').replace('.', '').replace(',', '.'));
     console.log(nmrSalario,"-", nmrInvestimentos,"-", nmrFixos);
     if (salario == undefined || investimentos == undefined || fixos == undefined || sobra == undefined) {
       Alert.alert('Erro','Preencha os campos corretamentes, se vazio use 0');
-    }else if(nmrSalario<(nmrInvestimentos+nmrFixos)){
-      Alert.alert('Valores anormais','Não seja idiota, suas despesas estão maior do que sua renda');
+    }else if(nmrSalario<(nmrInvestimentos+nmrFixos+nmrSobra)){
+      Alert.alert('Valores anormais','Suas despesas estão maior do que sua renda');
     }else {
       setData('salario', salario);
       setData('investimentos', investimentos);

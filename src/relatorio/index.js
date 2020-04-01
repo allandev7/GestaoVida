@@ -73,13 +73,15 @@ export default function Config({ navigation }) {
 
   async function finalizar() {
     await checkAndroidPermission();
-    const dia = new Date().getUTCDay();
     const mes = new Date().getMonth() + 1;
     const ano = new Date().getFullYear();
-    const filename = "Relatorio" + dia + "-" + mes + "-" + ano + ".png";
-    RNFS.copyFile(tempUri, RNFS.PicturesDirectoryPath + "/" + filename).then(() => {
+    const filename = "Relatorio"+ mes + "-" + ano + ".png";
+    RNFS.mkdir(RNFS.PicturesDirectoryPath+ "/Gestão Mensal", {
+
+    })
+    RNFS.copyFile(tempUri, RNFS.PicturesDirectoryPath + "/Gestão Mensal/" + filename).then(() => {
       setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 });
-      Alert.alert("Sucesso", "Relatório salvo com sucesso, e o mês será zerado...");
+      Alert.alert("Sucesso", "As despesas atuais foi zerada, e foi salva uma copia do relatório em pictures/Gestão Mensal");
       zerar();
       navigation.navigate('Config');
     }

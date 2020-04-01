@@ -104,6 +104,7 @@ export default function Index({ navigation }) {
         Alert.alert('Sucesso', 'Dinheirto extra guardado com sucesso');
       }
       setData('despesas', JSON.stringify(despesas));
+      setModal({ exibir: false, cat: "" }, setDespesa(''))
     }
   }
 
@@ -184,7 +185,7 @@ export default function Index({ navigation }) {
         </View>
         <View style={styles.mainContainer}>
           <Text style={styles.txtMain}>
-            Compras do mês
+            Adicionar Despesa
           </Text>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
