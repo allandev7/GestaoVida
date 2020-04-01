@@ -14,12 +14,12 @@ export default function Index({ navigation }) {
 
   const [modal, setModal] = useState({ exibir: false, cat: '' });
   const [despesa, setDespesa] = useState('');
-  const [despesas, setDespesas] = useState({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 });
+  const [despesas, setDespesas] = useState(undefined);
   const [salario, setSalario] = useState('');
   const [investimentos, setInvestimentos] = useState('');
   const [fixos, setFixos] = useState('');
   const [sobra, setSobra] = useState('');
-  const [extra, setExtra] = useState(0);
+  const [extra, setExtra] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,12 +29,15 @@ export default function Index({ navigation }) {
   }, [loading]);
 
   useEffect(() => {
-    console.log(despesas);
-    setData('despesas', JSON.stringify(despesas));
+    if(despesas != undefined){
+      setData('despesas', JSON.stringify(despesas));
+    }
   }, [despesas]);
 
   useEffect(() => {
-    setData('extra', extra.toString());
+    if(extra != undefined){
+      setData('extra', extra.toString());
+    }
   }, [extra]);
 
   
@@ -58,6 +61,8 @@ export default function Index({ navigation }) {
       setSobra(x.replace('R$', '').split(',')[0].replace('.', ''))
     );
     getData('despesas').then((x) => {
+        x==undefined ?
+        setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
         setDespesas(JSON.parse(x));
     });
     getData('extra').then((x) => {
@@ -70,11 +75,12 @@ export default function Index({ navigation }) {
   }
 
   function calcularTotal() {
-    return parseFloat(salario) + parseFloat(extra) - investimentos - fixos - despesas.alimento - despesas.lazer - despesas.presente - despesas.transporte - despesas.metas;
+    return parseFloat(salario) + parseFloat(extra) - investimentos - fixos - (despesas?.alimento || 0) - (despesas?.lazer || 0) - (despesas?.presente || 0) - (despesas?.transporte || 0) - (despesas?.metas || 0);
   }
 
   function adicionarDespesa(categoria) {
-    const { alimento, lazer, transporte, presente, metas } = despesas;
+    const { alimento , lazer, transporte, presente, metas } = despesas == undefined ? 
+    {alimento: 0, lazer:0, transporte:0, presente:0, metas:0}: despesas;
     if (despesa == '') {
       Alert.alert('Alerta', 'Digite a despesa corretamente')
     } else if (despesa.length >= 1) {
@@ -164,7 +170,7 @@ export default function Index({ navigation }) {
               Metas:
             </Text>
             <Text style={styles.subTxt}>
-              R${despesas.metas}
+              R${despesas?.metas || 0}
             </Text>
           </View>
           <View style={styles.subContainer}>

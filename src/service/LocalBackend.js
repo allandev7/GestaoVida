@@ -4,7 +4,7 @@ export async function setData(key, valor) {
     try {
         await AsyncStorage.setItem('@'+key, valor)
     } catch (e) {
-        alert(e)
+        alert(e);
     }
 }
 export async function getData(key) {

@@ -20,7 +20,8 @@ export default function Config({ navigation }) {
 
   function buscarDados() {
     getData('salario').then(x =>
-      setSalario(x)
+      x == undefined ?
+      setSalario(x) : setSalario(x), setBtnOn(false)
     );
     getData('investimentos').then(x =>
       setInvestimentos(x)
@@ -34,15 +35,23 @@ export default function Config({ navigation }) {
   }
 
   const [salario, setSalario] = useState('');
+  const [btnOn, setBtnOn] = useState(true);
   const [investimentos, setInvestimentos] = useState('');
   const [fixos, setFixos] = useState('');
   const [sobra, setSobra] = useState('');
 
 
-  function alterar() {
+  function alterar() 
+  {
+    const nmrSalario = parseFloat(salario.replace('R$', '').replace('.','').replace(',', '.'));
+    const nmrInvestimentos = parseFloat(investimentos.replace('R$', '').replace('.','').replace(',', '.'));
+    const nmrFixos = parseFloat(fixos.replace('R$', '').replace('.', '').replace(',', '.'));
+    console.log(nmrSalario,"-", nmrInvestimentos,"-", nmrFixos);
     if (salario == undefined || investimentos == undefined || fixos == undefined || sobra == undefined) {
       Alert.alert('Erro','Preencha os campos corretamentes, se vazio use 0');
-    } else {
+    }else if(nmrSalario<(nmrInvestimentos+nmrFixos)){
+      Alert.alert('Valores anormais','Não seja idiota, suas despesas estão maior do que sua renda');
+    }else {
       setData('salario', salario);
       setData('investimentos', investimentos);
       setData('fixos', fixos);
@@ -105,10 +114,10 @@ export default function Config({ navigation }) {
       </View>
       <TouchableOpacity onPress={() => alterar()} style={styles.btn}>
           <Text style={styles.txtBtn}>
-            Alterar
+            Salvar
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Relatorio")} style={[styles.btn, {backgroundColor:"#333"}]}>
+        <TouchableOpacity disabled={btnOn} onPress={() => navigation.navigate("Relatorio")} style={[styles.btn, {backgroundColor:"#333"}]}>
           <Text style={styles.txtBtn}>
             Relatório Mês
           </Text>

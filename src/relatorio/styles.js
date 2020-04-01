@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
     allContainer:{
@@ -17,18 +18,18 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     containerGrafico:{
-        top:20,
+        top:"2%",
         backgroundColor: '#FFFAFA'
     },
     circle:{
-        height:20,
-        width:20,
+        height:hp("2.2%"),
+        width:hp("2.2%"),
         borderRadius:50,
         marginRight: 10
     },
     legenda:{
         height:"45%",
-        paddingTop:50,
+        paddingTop:"10%",
         justifyContent:"space-between"
     },
     btn:{
@@ -39,11 +40,10 @@ const styles = StyleSheet.create({
         backgroundColor:"#7B68EE",
         borderRadius:25,
         justifyContent:"center",
-        margin: 20
     },
     txtBtn:{
         color:'#FFF',
-        fontSize:20
+        fontSize:hp('2.5%')
     }
 })
 

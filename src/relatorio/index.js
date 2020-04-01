@@ -34,7 +34,7 @@ export default function Config({ navigation }) {
   function buscarDados() {
     getData('despesas').then(x => {
       x == undefined ?
-        setDespesas(0) :
+        setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
         setDespesas(JSON.parse(x));
       console.log(x);
     }
