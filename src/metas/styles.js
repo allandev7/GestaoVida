@@ -8,8 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFAFA',
     },
     modal: {
-        top: -100,
-        height: '30%',
+        height: '40%',
         width: '90%',
         borderRadius: 25,
         alignItems: "center",
@@ -30,9 +29,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#7B68EE"
     },
     titleModal: {
-        fontSize: 25,
+        fontSize: hp('2.5%'),
         alignSelf: "center",
         color: "#7B68EE",
+    },
+    txtModal:{
+        fontSize: hp('1.8%'),
+        alignSelf: "center",
+        color: "#333",
+        padding: '3%'
     },
     head: {
         flexDirection: "row",

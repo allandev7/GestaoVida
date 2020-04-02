@@ -110,10 +110,13 @@ export default function Index() {
         }
       }
     }
+    setMeta('');
+    setModal({ exibir: false, cat: "" });
   }
 
   function checked(index, obj, txt) {
     let novo = { nome: obj.nome, check: !obj.check };
+    console.log(novo);
     if (txt == 'Mes') {
       mes.splice(index, 1, novo);
       setData('vetorMes', JSON.stringify(mes));
@@ -128,7 +131,7 @@ export default function Index() {
       buscarDados();
     } else if (txt == 'Meta') {
       metaAno.splice(index, 1, novo);
-      setData('vetorMeta', JSON.stringify(metaAno));
+      setData('vetorMetas', JSON.stringify(metaAno));
       buscarDados();
     }
 
@@ -141,8 +144,12 @@ export default function Index() {
         style={styles.modal}
         isOpen={modal.exibir}
         swipeToClose={true}
-        onClosed={() => setModal({ exibir: false, cat: "" })}>
+        onClosed={() => {
+          setModal({ exibir: false, cat: "" });
+          setMeta('');
+        }}>
         <Text style={styles.titleModal}> Adiconar Meta</Text>
+        <Text style={styles.txtModal}>Se você coloca uma meta, você deve cumpri-la!! Está meta não sera apagada.</Text>
         <TextInput onChangeText={(txt) => { setMeta(txt) }} value={meta} style={styles.inputModal} placeholder="Meta" />
         <Button onPress={() => adicionarMeta(modal.cat)} color="#7B68EE" title="Adicionar" />
       </Modal>
@@ -152,14 +159,14 @@ export default function Index() {
         <View style={styles.mainContainer}>
           <View style={styles.head}>
             <Text style={styles.txtMain}>
-              Compras Mês
+              Grandes Aquisições
           </Text>
             <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Mes" })} size={25} color='#7B68EE' />
           </View>
 
           {mes !== undefined ? mes.map((x, index) => (
             <CheckBox
-              textStyle={{fontFamily: 'Roboto'}}
+              textStyle={{ fontFamily: 'Roboto' }}
               key={index}
               title={x.nome}
               checked={x.check}
