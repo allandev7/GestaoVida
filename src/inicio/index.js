@@ -48,17 +48,17 @@ export default function Index({ navigation }) {
         Alert.alert('Faça as configurações iniciais', 'Informe os seus dados na aba de configuração e depois atualize os dados na tela inicial',
         [{text:"Ir Agora", onPress:()=> navigation.navigate('Config')}]);
       }
-      setSalario(x.replace('R$', '').split(',')[0].replace('.', ''))
+      setSalario(x.replace('R$', '').replace('.', '').replace(',', '.'))
     }
     );
     getData('investimentos').then(x =>
-      setInvestimentos(x.replace('R$', '').split(',')[0].replace('.', ''))
+      setInvestimentos(x.replace('R$', '').replace('.', '').replace(',', '.'))
     );
     getData('fixos').then(x =>
-      setFixos(x.replace('R$', '').split(',')[0].replace('.', ''))
+      setFixos(x.replace('R$', '').replace('.', '').replace(',', '.'))
     );
     getData('sobra').then(x =>
-      setSobra(x.replace('R$', '').split(',')[0].replace('.', ''))
+      setSobra(x.replace('R$', '').replace('.', '').replace(',', '.'))
     );
     getData('despesas').then((x) => {
         x==undefined ?
@@ -75,7 +75,16 @@ export default function Index({ navigation }) {
   }
 
   function calcularTotal() {
-    return parseFloat(salario) + parseFloat(extra) - investimentos - fixos - (despesas?.alimento || 0) - (despesas?.lazer || 0) - (despesas?.presente || 0) - (despesas?.transporte || 0) - (despesas?.metas || 0);
+    const nmrSalario = Number(salario);
+    const nmrExtra = Number(extra);
+    const nmrInvestimentos = Number(investimentos);
+    const nmrFixos = Number(fixos);
+    const nmrAlimento = Number(despesas?.alimento || 0);
+    const nmrLazer = Number(despesas?.lazer || 0);
+    const nmrPresente = Number(despesas?.presente || 0);
+    const nmrTransporte = Number(despesas?.transporte || 0);
+    const nmrMetas = Number(despesas?.metas || 0);
+    return ((nmrSalario + nmrExtra) - nmrMetas - nmrInvestimentos - nmrFixos - nmrAlimento - nmrLazer - nmrPresente - nmrTransporte).toFixed(2);
   }
 
   function adicionarDespesa(categoria) {

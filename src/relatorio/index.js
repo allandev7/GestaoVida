@@ -81,7 +81,16 @@ export default function Config({ navigation }) {
   }
 
   function saldo() {
-    return parseFloat(salario.replace('R$', '').replace('.', '').replace(',', '.')) + parseFloat(extra) - investimentos - fixos - (despesas?.alimento || 0) - (despesas?.lazer || 0) - (despesas?.presente || 0) - (despesas?.transporte || 0) - (despesas?.metas || 0);
+    const nmrSalario = Number(salario.replace('R$', '').replace('.', '').replace(',', '.'));
+    const nmrExtra = Number(extra);
+    const nmrInvestimentos = Number(investimentos);
+    const nmrFixos = Number(fixos);
+    const nmrAlimento = Number(despesas?.alimento || 0);
+    const nmrLazer = Number(despesas?.lazer || 0);
+    const nmrPresente = Number(despesas?.presente || 0);
+    const nmrTransporte = Number(despesas?.transporte || 0);
+    const nmrMetas = Number(despesas?.metas || 0);
+    return ((nmrSalario + nmrExtra) - nmrMetas - nmrInvestimentos - nmrFixos - nmrAlimento - nmrLazer - nmrPresente - nmrTransporte).toFixed(2);
   }
 
   async function finalizar() {
