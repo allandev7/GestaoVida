@@ -20,7 +20,7 @@ que ficará salvo no meu celular. Tendo também uma tela de metas que me motiva 
 * [RNFS](https://github.com/itinance/react-native-fs)
 
 ## Contato :email:
-Para mais informações :
+Para mais informações :smirk: :
 
 * [E-Mail](mailto:allansilvapereira10@gmail.com)
 * [Linkedin](https://www.linkedin.com/in/allan-da-silva-pereira-228203161/?originalSubdomain=br)
