@@ -12,10 +12,11 @@ import RNFS from 'react-native-fs';
 
 
 export default function Config({ navigation }) {
+
   const [loading, setLoading] = useState(true);
   const [despesas, setDespesas] = useState('');
 
-  
+
 
   useEffect(() => {
     buscarDados();
@@ -32,6 +33,12 @@ export default function Config({ navigation }) {
   };
 
   function buscarDados() {
+    getData('salario').then(x => {
+      setSalario(x);
+    })
+    getData('extra').then(x => {
+      setExtra(x);
+    })
     getData('despesas').then(x => {
       x == undefined ?
         setDespesas({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }) :
@@ -53,6 +60,8 @@ export default function Config({ navigation }) {
     );
   }
 
+  const [salario, setSalario] = useState('');
+  const [extra, setExtra] = useState('');
   const [investimentos, setInvestimentos] = useState('');
   const [tempUri, setTempUri] = useState('');
   const [fixos, setFixos] = useState('');
@@ -71,12 +80,16 @@ export default function Config({ navigation }) {
     setData('despesas', JSON.stringify({ alimento: 0, lazer: 0, metas: 0, presente: 0, transporte: 0 }));
   }
 
+  function saldo() {
+    return parseFloat(salario.replace('R$', '').replace('.', '').replace(',', '.')) + parseFloat(extra) - investimentos - fixos - (despesas?.alimento || 0) - (despesas?.lazer || 0) - (despesas?.presente || 0) - (despesas?.transporte || 0) - (despesas?.metas || 0);
+  }
+
   async function finalizar() {
     await checkAndroidPermission();
     const mes = new Date().getMonth() + 1;
     const ano = new Date().getFullYear();
-    const filename = "Relatorio"+ mes + "-" + ano + ".png";
-    RNFS.mkdir(RNFS.PicturesDirectoryPath+ "/Gestão Mensal", {
+    const filename = "Relatorio" + mes + "-" + ano + ".png";
+    RNFS.mkdir(RNFS.PicturesDirectoryPath + "/Gestão Mensal", {
 
     })
     RNFS.copyFile(tempUri, RNFS.PicturesDirectoryPath + "/Gestão Mensal/" + filename).then(() => {
@@ -138,6 +151,11 @@ export default function Config({ navigation }) {
             <View style={{ flexDirection: "row" }}>
               <View style={[styles.circle, { backgroundColor: sliceColor[6] }]} />
               <Text>Gastos Fixos: R${fixos.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text>
+            </View>
+            <View style={styles.saldoAtual}>
+              <Text style={styles.txtSaldoAtual}>
+                Ficou em Caixa: R${saldo().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              </Text>
             </View>
           </View>
         </ViewShot>
