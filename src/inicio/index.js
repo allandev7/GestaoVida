@@ -134,6 +134,7 @@ export default function Index({ navigation }) {
       />
 
       <Modal
+      position={'center'}
         style={styles.modal}
         isOpen={modal.exibir}
         swipeToClose={true}

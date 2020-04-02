@@ -7,9 +7,7 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     modal: {
-        zIndex:100,
-        top: -100,
-        height: '30%',
+        height: 200,
         width: '90%',
         borderRadius: 25,
         alignItems: "center",

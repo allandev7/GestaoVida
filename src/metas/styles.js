@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFAFA',
     },
     modal: {
-        height: '40%',
+        height: 240,
         width: '90%',
         borderRadius: 25,
         alignItems: "center",

@@ -5,7 +5,6 @@ import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modalbox'
 import { getData, setData } from '../service/LocalBackend'
-import { set } from 'react-native-reanimated';
 
 // import { Container } from './styles';
 
