@@ -16,6 +16,8 @@ que ficará salvo no meu celular. Tendo também uma tela de metas que me motiva 
 * [React Native](https://reactnative.dev/)
 * [React Hooks](https://pt-br.reactjs.org/docs/hooks-intro.html)
 * [Async Storage](https://github.com/react-native-community/async-storage)
+* [React Native View Shot](https://github.com/gre/react-native-view-shot)
+* [RNFS](https://github.com/itinance/react-native-fs)
 
 ## Contato :email:
 Para mais informações :
