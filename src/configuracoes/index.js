@@ -10,8 +10,6 @@ import { getData, setData } from '../service/LocalBackend'
 
 export default function Config({ navigation }) {
 
-  
-
   useEffect(() => {
     navigation.addListener('didFocus', () => {
       buscarDados();
@@ -19,9 +17,14 @@ export default function Config({ navigation }) {
   }, []);
 
   function buscarDados() {
-    getData('salario').then(x =>
-      x == undefined ?
-      setSalario(x) : setSalario(x), setBtnOn(false)
+    getData('salario').then(x =>{
+      if(x != undefined){
+        setBtnOn(false);
+        setSalario(x);
+      }else{
+        setSalario(x);
+      }
+    }
     );
     getData('investimentos').then(x =>
       setInvestimentos(x)
