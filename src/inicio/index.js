@@ -79,6 +79,11 @@ export default function Index({ navigation }) {
   }
 
   function adicionarDespesa(categoria) {
+    if(!Number(despesa)){
+      console.log('oi');
+      Alert.alert('Valor anormal', 'Digite um valor válido');
+      return false;
+    }
     const { alimento , lazer, transporte, presente, metas } = despesas == undefined ? 
     {alimento: 0, lazer:0, transporte:0, presente:0, metas:0}: despesas;
     if (despesa == '') {
