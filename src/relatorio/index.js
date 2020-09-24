@@ -151,7 +151,7 @@ export default function Config({ navigation }) {
             </View>
             <View style={{ flexDirection: "row" }}>
               <View style={[styles.circle, { backgroundColor: sliceColor[4] }]} />
-              <Text>Transporte: R${despesas.transporte}</Text>
+              <Text>Necessidades: R${despesas.transporte}</Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <View style={[styles.circle, { backgroundColor: sliceColor[5] }]} />

@@ -228,7 +228,7 @@ export default function Index({ navigation }) {
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.subTxt}>
-              Transporte
+              Necessidades
             </Text>
             <Icon name="plus-circle" onPress={() => setModal({ exibir: true, cat: "Transporte" })} size={25} color='#7B68EE' />
           </View>
